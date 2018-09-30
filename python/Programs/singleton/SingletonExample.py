@@ -1,4 +1,8 @@
-                                      class SingletonMetaClass(type):
+#------------------------------------------------------------------------------
+# Example to use metaclass to implement Singleton design pattern
+#------------------------------------------------------------------------------
+
+class SingletonMetaClass(type):
     _instance = None
 
     def __call__(self):
