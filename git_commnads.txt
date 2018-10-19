@@ -1,0 +1,16 @@
+Git commands to delete a file from repo
+---------------------------------------
+$ git rm singleton.py
+$ git status
+$ git commit -m 'Deleting singleton.py file'
+$ git diff --stat --cached origin/master
+$ git push -u origin master
+
+
+Modiyfying a file
+-----------------
+$ Edit the file vi SingletonExample.py
+$ git status
+$ git add SingletonExample.py
+$ git commit -m "Updating Singleton object creation example"
+$ git push -u origin master
