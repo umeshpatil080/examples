@@ -1,0 +1,54 @@
+Step 1:
+-------
+cd C:\DATA_\Reading Material\Python\sphinx_doc_gen>
+
+Step 2:
+-------
+> mkdir scripts rst html
+# copy *.py to scripts directory
+
+Step 3:
+-------
+>sphinx-quckstart
+
+Step 4:
+-------
+>notepad conf.py
+# a. remove comments for import os and import sys
+# b. add 'scripts' directory to env path "sys.path.insert(0, os.path.join(os.path.abspath('.'), 'scripts'))"
+#    Above path addition did not work. So added "sys.path.insert(0, 'C:\DATA_\Reading Material\Python\sphinx_doc_gen\scripts')"
+# c. change html_theme to html_theme = 'default'
+
+Step 5:
+-------
+>make html
+
+Step 6:
+-------
+>sphinx-apidoc -o rst scripts
+Creating file rst\pets.rst.
+Creating file rst\sam.rst.
+Creating file rst\modules.rst.
+
+Step 7:
+-------
+C:\DATA_\Reading Material\Python\sphinx_doc_gen>
+C:\DATA_\Reading Material\Python\sphinx_doc_gen\rst>copy modules.rst index.rst
+        1 file(s) copied.
+
+Step 8:
+-------
+C:\DATA_\Reading Material\Python\sphinx_doc_gen\rst>mkdir _static
+
+Step 9:
+-------
+C:\DATA_\Reading Material\Python\sphinx_doc_gen\rst>cd ..
+C:\DATA_\Reading Material\Python\sphinx_doc_gen>copy conf.py rst/conf.py # this did not work. Use GUI to copy
+
+Step 10:
+--------
+C:\DATA_\Reading Material\Python\sphinx_doc_gen>sphinx-build -b html rst html
+
+HTML docs will available in "C:\DATA_\Reading Material\Python\sphinx_doc_gen\html".
+Contents of directory "C:\DATA_\Reading Material\Python\sphinx_doc_gen\html" can be
+copied to a web server to serve documentation to outside users.
