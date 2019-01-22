@@ -52,8 +52,7 @@ class CompressRepeatedChars():
             repeat_char_count = j - i + 1 # default len 1 for single character
             i = j
             compressed_str += compressed_str + cur_char + str(repeat_char_count)
-
-            return compressed_str if len(compressed_str) < len(string) else string
+        return compressed_str if len(compressed_str) < len(string) else string
 
 
 

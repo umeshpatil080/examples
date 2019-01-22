@@ -9,6 +9,7 @@ Step 2:
 
 Step 3:
 -------
+cd C:\DATA_\Reading Material\Python\sphinx_doc_gen>
 >sphinx-quckstart
 
 Step 4:
