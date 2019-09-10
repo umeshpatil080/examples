@@ -1,0 +1,46 @@
+#
+# Copyright (c) 2018 NetApp, Inc., All Rights Reserved.
+#   Any use, modification, or distribution is prohibited
+#   without prior written consent from NetApp, Inc.
+#
+
+name: "single-group-suite"
+qtest:
+    testsuite: "04_Regression/Core_OS/Regression/CTL"
+    project: "RL-Bluepaddle"
+    server_url: "https://qtest.eng.netapp.com"
+
+testgroups:
+  - name: "test-group1"
+    tests:
+      - name: "python-test"
+        image: "docker.netapp.com/team/nate/python_test:DOT_dev.ok"
+        command: ["pytest"]
+        args: ["/workspace/test/nate/nxt/examples/t_fail.py"]
+        qtest:
+            testname: 'qtest_testname1'
+        env:
+          - name: 'NODES'
+            value: 'n1,n2'
+          - name: 'PYNATE_LOG_LEVEL'
+            value: 'debug'
+          - name: 'PYNATE_LOG_FILE_TRACING'
+            value: '1'
+          - name: 'PYNATE_LOG_SHOW_RUNID'
+            value: '1'
+
+      - name: "pytest-test1"
+        image: "docker.netapp.com/team/nate/python_test:DOT_dev.ok"
+        command: ["python"]
+        args: ["/workspace/test/nate/nxt/examples/t_pytest.py"]
+        env:
+          - name: 'NODES'
+            value: 'n3,n4'
+          - name: 'FOO'
+            value: '123'
+          - name: 'PYNATE_LOG_LEVEL'
+            value: 'debug'
+          - name: 'PYNATE_LOG_FILE_TRACING'
+            value: '1'
+          - name: 'PYNATE_LOG_SHOW_RUNID'
+            value: '1'

@@ -1,0 +1,129 @@
+{
+    "$schema" : "http://json-schema.org/draft-06/schema#",
+
+    "definitions" : {
+        "testgroups" : {
+            "type" : "array",
+            "items" : {
+                "type": "object",
+                "properties" : {
+                    "name" : {
+                        "type" : "string",
+                        "description" : "Name of this Test Group"
+                    },
+                    "tests" : {"$ref" : "#/definitions/tests"},
+                    "abort_on_error" : {"$ref" : "#/definitions/abort_on_error"}
+                },
+                "required" : ["name", "tests"]
+            }
+        },
+
+        "tests" : {
+            "type" : "array",
+            "items" : {
+                "type": "object",
+                "properties" : {
+                    "name" : {
+                        "type" : "string",
+                        "description" : "Name for this test"
+                    },
+                    "image" : {
+                        "type" : "string",
+                        "description" : "Image for this test"
+                    },
+                    "command" : {
+                        "type" : "array",
+                        "items" : { "type" : "string" },
+                        "description" : "The command to run for this tests"
+                    },
+                    "args" : {
+                        "type" : "array",
+                        "items" : { "type" : "string" },
+                        "description" : "The args to apply to the command for this tests"
+                    },
+                    "iterations" : {
+                        "type" : "integer",
+                        "description" : "The number of times to run this test to completion",
+                        "default" : 1
+                    },
+                    "parallelism" : {
+                        "type" : "integer",
+                        "description" : "The number of instances of this that can run in parallel to one another.",
+                        "default" : 1
+                    },
+                    "env" :   {"$ref" : "#/definitions/env_array"},
+                    "qtest" : {"$ref" : "#/definitions/qtest_test"}
+                },
+                "required" : ["name", "image"]
+            }
+        },
+
+        "env_array" : {
+            "type" : "array",
+            "items" : {
+                "type" : "object",
+                "properties" : {
+                    "name" : {
+                        "type" : "string",
+                        "description" : "Name of the environment variable"
+                    },
+                    "value" : {
+                        "type" : "string",
+                        "description" : "Value of the environment variable"
+                    }
+                },
+                "required" : ["name", "value"]
+            },
+            "description" : "An array of environment variable key/value pairs."
+        },
+
+        "qtest_testsuite" : {
+            "type" : "object",
+            "properties" : {
+                "testsuite" : {
+                    "type" : "string",
+                    "description" : "Name of the qTest test-suite"
+                },
+                "project" : {
+                    "type" : "string",
+                    "description" : "Name of the qTest project"
+                },
+                "server_url" : {
+                    "type" : "string",
+                    "description" : "qTest server URL"
+                }
+            },
+            "required" : ["testsuite"]
+        },
+
+        "qtest_test" : {
+            "type" : "object",
+            "properties" : {
+                "testname" : {
+                    "type" : "string",
+                    "description" : "Name of the test-run in qTest Test Execution area"
+                }
+            },
+            "required" : ["testname"]
+        },
+
+        "abort_on_error" : {
+            "type" : "boolean",
+            "description" : "Abort execution on error.",
+            "default" : true
+        }
+    },
+
+    "title" : "A TestSuite definition file",
+    "type" : "object",
+    "properties" : {
+        "name" : {
+            "type" : "string",
+            "description" : "The Name of the testsuite"
+        },
+        "qtest" : {"$ref" : "#/definitions/qtest_testsuite"},
+        "testgroups" : {"$ref" : "#/definitions/testgroups"},
+        "abort_on_error" : {"$ref" : "#/definitions/abort_on_error"}
+    },
+    "required" : ["name", "testgroups"]
+}
