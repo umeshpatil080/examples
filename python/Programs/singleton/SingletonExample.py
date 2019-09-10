@@ -1,49 +1,89 @@
-#------------------------------------------------------------------------------
-# Example to use metaclass to implement Singleton design pattern
-#------------------------------------------------------------------------------
+"""
+1. Base class of all objects is "object" class
+2. A class also is an object of class type "type"
 
-class SingletonMetaClass(type):
+=> object is the base of every object, type is the class of every type
+
+Metaclass-
+    A metaclass is the class of a class. Like a class defines how an instance
+    of the class behaves, a metaclass defines how a class behaves. A class is
+    an instance of a metaclass.
+
+    A object => is an instance of a class
+    A class  => is an instance of a metaclass
+
+    All classes by default instances of class "type". So "type" is default
+    metaclass in Python.
+
+    Creating metaclass - To create your own metaclass in Python you really
+    just want to subclass type.
+
+Metaclass good read -
+https://stackoverflow.com/questions/100003/what-are-metaclasses-in-python
+https://stackoverflow.com/questions/100003/what-are-metaclasses-in-python
+http://blog.thedigitalcatonline.com/blog/2014/09/01/python-3-oop-part-5-metaclasses/
+
+"""
+
+class Singleton(type):
     _instance = None
 
-    def __call__(self):
-        print("In __call__")
+    # override __call__ method of parent class "type".
+    # '__call__' invoked when an object is called i.e, obj().
+    # So "metaclass = Singleton" executes, it instantiates
+    # an object of type "Singleton" and makes a call on that
+    # object which results invokation of "__call__" method.
+    def __call__(self, *args, **kwargs):
         if not self._instance:
-            self._instance = super().__call__()
+            # no object is cached, get an object using "self".
+            # "self" here is an object of type "Singleton".
+
+            # super=> get a proxy object using "Singleton" class and its object
+            # which can be used call parent class methods overriden here in
+            # child class. In this case its "__call__".
+            # invoke parent class "type"'s __call__ method for python to finish
+            # construction of object instantiated.
+            self._instance = super(Singleton, self).__call__(*args, **kwargs)
+            print("Type of self:{0}".format(type(self)))
+            print("Type of self._instance:{0}".format(type(self._instance)))
+            print("Is self and self._instance same:{0}".format(self is self._instance))
+            print("Address of self:{0}".format(id(self)))
+            print("Address of self._instance:{0}".format(id(self._instance)))
+
         return self._instance
 
-class Sam(object, metaclass = SingletonMetaClass):
+class SamSingleton(metaclass = Singleton):
+    pass
 
-    def func(self):
-        print("In func")
+"""
+# One more way implementing singleton class with global variable
+
+_instance = None
+class SamSingleton(object):
+    def __new__(cls, *args, **kwargs):
+        global _instance
+        if _instance is None:
+            _instance = super().__new__(cls,*args, **kwargs)
+        return _instance
+"""
+
+class SamTest(object):
+    pass
 
 def main():
-    # 'Sam' class object is created by 'SingletonMetaClass'.
-    # 'Sam' is an object and its callable.
-    # 'Sam()' calls '__call__' method of in its creator class similar to as an
-    # object invokes '__call__' method in its type class.
-    # In case of 'Sam' class object, 'Sam()' invokes '__call__' method in its
-    # type or creator i.e ''SingletonMetaClass' class.
+    a = SamSingleton()
+    b = SamSingleton()
 
-    # Create 1st object
-    s1 = Sam()
-    print("type of Sam: {0}".format(type(Sam)))
-    s1.func()
-
-    # Create 2nd object
-    s2 = Sam()
-
-    # Add an attribute s1 object. If S1 and s2 are references to same object
-    # then, x can be accessed using s2 object.
-    s1.x = "abc"
-
-    # Print ids associated with both objects
-    print("s1: {0}\ns2: {1}\n".format(id(s1), id(s2)))
-
-    if id(s1) == id(s2):
-        print("s1 and s2 are same objects")
-        print("s2.x = {0}".format(s2.x))
-    else:
-        print("s1 and s2 are not same objects")
+    print("-----------__main__------------")
+    # Here type of class "SamSingleton" has been changed to a custom type
+    # using metaclass i.e, "SamSingleton" class is now instance of class
+    # "Singleton" instead of being instance of class "type".
+    print("Type of SamTest:{0}".format(type(SamTest))) #instance of class "type"
+    print("Type of SamSingleton:{0}".format(type(SamSingleton)))
+    print("Type of object a:{0}".format(type(a)))
+    print("a is b: {0}".format(a is b))
+    print("Object a's address: {0}".format(id(a)))
+    print("Object b's address: {0}".format(id(b)))
 
 if __name__ == '__main__':
     main()
