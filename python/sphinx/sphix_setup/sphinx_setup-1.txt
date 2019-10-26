@@ -1,0 +1,87 @@
+1. Create project and docs directory. Assuming current dir is "project_root"
+  $ mkdir project docs
+    project_root
+    |
+    |-- project
+    |
+    |-- docs
+
+2. Setup sphinx documetion by running "sphinx-quckstart"
+  $ cd docs
+  $ sphinx-quickstart
+
+  Some options to say "yes" and leave other as defaults
+  > Separate source and build directories (y/n) [n]: y
+  > autodoc: automatically insert docstrings from modules (y/n) [n]: y
+  > intersphinx: link between Sphinx documentation of different projects (y/n) [n]: y
+  > Create Makefile? (y/n) [y]: y
+  > Create Windows command file? (y/n) [y]:
+
+  Creating file .\source\conf.py.
+  Creating file .\source\index.rst.
+  Creating file .\Makefile.
+  Creating file .\make.bat.
+
+  Now we will have following structure created under "project_root/docs"
+  project_root
+    |
+    |-- docs
+        |-- build
+        |-- make.bat
+        |-- Makefile
+        |-- source
+            |-- conf.py
+            |-- index.rst
+            |-- _static
+            |-- _template
+
+3. Add project code path python serach path in "project_root/docs/source/conf.py"
+    import os
+    import sys
+    sys.path.insert(0, os.path.abspath('..\..\project'))
+
+4. Populate "project_root/project" with project source code files
+    project_root
+    |
+    |-- project
+        |-- module_file.py
+        |-- class_file.py
+
+5. Create .rst files for files in project and place inside "project_root/docs/source"
+
+  Contents of "project_root/docs/source/module_file.rst" looks like below
+
+    Doc for module_file here
+    ========================
+
+    .. automodule:: module_file
+        :members:
+        :undoc-members:
+        :show-inheritance:
+
+    Same thing for other modules and modules containing classes.
+
+6. Add .rst files created in step#5 to "project_root/docs/index.rst"
+   (Add paths relative to "project_root/docs")
+
+    Welcome to Sam Sphinx's documentation!
+    ======================================
+
+    .. toctree::
+       :maxdepth: 2
+       :caption: Contents:
+
+       module_file
+       class_file
+
+6. Build sphinx documetation
+  $ cd project_root/docs
+  $ make html
+
+7. Generated documentation will be available in "project_root/docs/build" directory
+
+8. Access documentation using "project_root/docs/build/index.html" 
+
+9. Clean-up documentation
+  $ cd project_root/docs
+  $ make clean
