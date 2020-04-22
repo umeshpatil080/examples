@@ -1,0 +1,35 @@
+i>docker pull mysql
+
+>docker run --name <mysql_server_container_name> -e MYSQL_ROOT_PASSWORD=<password> -d mysql:<tag_name>
+
+#> docker run --name mysql_server1 -p 4002:3306 -e MYSQL_ROOT_PASSWORD=123 -d mysql:latest
+# Note: -p 4002:3306 exposes MySQL running within container to be used by outside world
+
+
+
+# The following command starts another mysql container instance and runs the mysql
+# command line client against your original mysql container, 
+# allowing you to execute SQL statements against your database instance
+
+# connecting from cli
+>docker run -it --link <mysql_server_container_name>:mysql --rm mysql sh -c "exec mysql -h$MYSQL_PORT_3306_TCP_ADDR -P$MYSQL_PORT_3306_TCP_PORT -uroot -p$MYSQL_ENV_MYSQL_ROOT_PASSWORD"
+#docker run -it --link mysql_server2:mysql --rm mysql sh -c "exec mysql -h$MYSQL_PORT_3306_TCP_ADDR -P$MYSQL_PORT_3306_TCP_PORT -uroot -p$MYSQL_ENV_MYSQL_ROOT_PASSWORD"
+
+
+# Sample Python script to connect to above MySQL server running within container
+
+import pymysql
+
+try:
+    conn = pymysql.connect(host='localhost', port=4002, user='root', passwd='123', db='mysql')
+    cur = conn.cursor()
+    cur.execute("SELECT Host,User FROM user")
+    print(cur.description)
+    print()
+    for row in cur:
+        print(row)
+    cur.close()
+    conn.close()
+except Exception as e:
+    print("Error:" + str(e))
+
