@@ -1,4 +1,11 @@
-Git commands to delete a file from repo
+git commands to add a file to repo
+----------------------------------
+$ git add <file_to_add_to_git_repo>
+$ git commit -m "adding mysql container creation steps"
+$ git diff --stat --cached origin/master
+$ git push -u origin master
+
+git commands to delete a file from repo
 ---------------------------------------
 $ git rm singleton.py
 $ git status
