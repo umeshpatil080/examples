@@ -9,8 +9,8 @@ Metaclass-
     of the class behaves, a metaclass defines how a class behaves. A class is
     an instance of a metaclass.
 
-    A object => is an instance of a class
-    A class  => is an instance of a metaclass
+    An object => is an instance of a class
+    A class   => is an instance of a metaclass
 
     All classes by default instances of class "type". So "type" is default
     metaclass in Python.
@@ -39,7 +39,7 @@ class Singleton(type):
             # "self" here is an object of type "Singleton".
 
             # super=> get a proxy object using "Singleton" class and its object
-            # which can be used call parent class methods overriden here in
+            # which can be used to call parent class methods overriden here in
             # child class. In this case its "__call__".
             # invoke parent class "type"'s __call__ method for python to finish
             # construction of object instantiated.
